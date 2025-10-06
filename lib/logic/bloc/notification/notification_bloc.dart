@@ -1,3 +1,4 @@
+import 'package:basic_food_delivery_app/logic/bloc/notification/notification_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:basic_food_delivery_app/data/models/notification.dart';
@@ -99,7 +100,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       SearchNotifications event, Emitter<NotificationState> emit) {
     final currentState = state;
     if (currentState is NotificationLoaded) {
-      emit(NotificationSearching());
+      emit(NotificationSearching() as NotificationState);
       final query = event.query.toLowerCase();
       if (query.isEmpty) {
         emit(NotificationLoaded(currentState.allNotifications, currentState.allNotifications));

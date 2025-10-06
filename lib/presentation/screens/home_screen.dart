@@ -46,7 +46,12 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const NotificationScreen()),
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                    value: BlocProvider.of<NotificationBloc>(context),
+                    child: const NotificationScreen(),
+                  ),
+                ),
               );
             },
             icon: const Icon(Icons.notifications_none),
@@ -96,7 +101,10 @@ class HomeScreen extends StatelessWidget {
                           );
                         },
                         openBuilder: (BuildContext _, VoidCallback __) {
-                          return const SearchScreen();
+                          return BlocProvider.value(
+                            value: BlocProvider.of<HomeBloc>(context),
+                            child: const SearchScreen(),
+                          );
                         },
                       ),
                     ),
