@@ -11,6 +11,7 @@ Tech Stack
 
 Screenshots
 ------------
-![ScreenShot3.png](../../OneDrive/Pictures/Shopping%20App%20UI/Output%20SS/ScreenShot3.png)
-![ScreenShot2.png](../../OneDrive/Pictures/Shopping%20App%20UI/Output%20SS/ScreenShot2.png)
-![ScreenShot1.png](../../OneDrive/Pictures/Shopping%20App%20UI/Output%20SS/ScreenShot1.png)
+<img width="1587" height="2245" alt="ScreenShot3" src="https://github.com/user-attachments/assets/fe26bd25-e896-4191-bc79-cddb99c44db3" />
+<img width="1587" height="2245" alt="ScreenShot2" src="https://github.com/user-attachments/assets/45712b2d-b9b6-4ec5-a7fd-c3c8ce0879ad" />
+<img width="1587" height="2245" alt="ScreenShot1" src="https://github.com/user-attachments/assets/825e8b93-9be8-4f17-a280-e0be45036a92" />
+
