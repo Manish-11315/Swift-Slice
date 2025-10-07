@@ -1,3 +1,4 @@
+import 'package:basic_food_delivery_app/presentation/screens/description_screen.dart';
 import 'package:basic_food_delivery_app/data/models/cart_item.dart';
 import 'package:basic_food_delivery_app/logic/bloc/cart/cart_bloc.dart';
 import 'package:basic_food_delivery_app/utils/colors.dart';
@@ -47,47 +48,56 @@ class _CartViewScreenState extends State<CartViewScreen> {
                     itemCount: state.cartItems.length,
                     itemBuilder: (context, index) {
                       final cartItem = state.cartItems[index];
-                      return Card(
-                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                cartItem.foodItem.imageUrl,
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
-                              ),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(
+                              builder: (context) => DescriptionScreen(foodItem: cartItem.foodItem),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  cartItem.foodItem.imageUrl,
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(cartItem.foodItem.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 4),
+                                      Text('\$${cartItem.foodItem.price.toStringAsFixed(2)}', style: const TextStyle(fontSize: 14, color: AppColors.primaryColor)),
+                                    ],
+                                  ),
+                                ),
+                                Row(
                                   children: [
-                                    Text(cartItem.foodItem.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 4),
-                                    Text('\$${cartItem.foodItem.price.toStringAsFixed(2)}', style: const TextStyle(fontSize: 14, color: AppColors.primaryColor)),
+                                    IconButton(
+                                      icon: const Icon(Icons.remove_circle_outline),
+                                      onPressed: () {
+                                        context.read<CartBloc>().add(DecrementQuantity(cartItem));
+                                      },
+                                    ),
+                                    Text(cartItem.quantity.toString()),
+                                    IconButton(
+                                      icon: const Icon(Icons.add_circle_outline),
+                                      onPressed: () {
+                                        context.read<CartBloc>().add(IncrementQuantity(cartItem));
+                                      },
+                                    ),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.remove_circle_outline),
-                                    onPressed: () {
-                                      context.read<CartBloc>().add(DecrementQuantity(cartItem));
-                                    },
-                                  ),
-                                  Text(cartItem.quantity.toString()),
-                                  IconButton(
-                                    icon: const Icon(Icons.add_circle_outline),
-                                    onPressed: () {
-                                      context.read<CartBloc>().add(IncrementQuantity(cartItem));
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       );

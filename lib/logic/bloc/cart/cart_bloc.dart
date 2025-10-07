@@ -30,6 +30,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       }
     });
 
+    on<UpdateCartItem>((event, emit) {
+      if (state is CartLoaded) {
+        final List<CartItem> updatedCartItems = (state as CartLoaded).cartItems.map((cartItem) {
+          if (cartItem.foodItem.id == event.foodItem.id) {
+            return cartItem.copyWith(quantity: event.quantity);
+          } else {
+            return cartItem;
+          }
+        }).toList();
+        emit(CartLoaded(cartItems: updatedCartItems));
+      }
+    });
+
     on<RemoveItemFromCart>(_onRemoveItemFromCart);
     on<IncrementQuantity>(_onIncrementQuantity);
     on<DecrementQuantity>(_onDecrementQuantity);

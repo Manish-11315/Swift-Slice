@@ -18,6 +18,16 @@ class AddToCart extends CartEvent {
   List<Object> get props => [foodItem];
 }
 
+class UpdateCartItem extends CartEvent {
+  final FoodItem foodItem;
+  final int quantity;
+
+  const UpdateCartItem(this.foodItem, this.quantity);
+
+  @override
+  List<Object> get props => [foodItem, quantity];
+}
+
 class RemoveItemFromCart extends CartEvent {
   final CartItem cartItem;
 

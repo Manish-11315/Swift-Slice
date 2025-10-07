@@ -12,9 +12,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         // Replace with actual user data fetching logic
         const user = User(
           id: '1',
-          name: 'John Doe',
-          email: 'john.doe@example.com',
-          address: '123 Main St, Anytown, USA',
+          name: 'Manish Kapri',
+          email: 'test.mail@example.com',
+          address: 'Address Here, India',
         );
         emit(const ProfileLoaded(user));
       } catch (e) {

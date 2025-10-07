@@ -8,6 +8,8 @@ class FoodItem extends Equatable {
   final String imageUrl;
   final double rating;
   final int calories;
+  final bool isFavourite;
+  final String category;
 
   const FoodItem({
     required this.id,
@@ -17,10 +19,46 @@ class FoodItem extends Equatable {
     required this.imageUrl,
     required this.rating,
     required this.calories,
+    this.isFavourite = false,
+    required this.category,
   });
 
+  FoodItem copyWith({
+    String? id,
+    String? name,
+    String? description,
+    double? price,
+    String? imageUrl,
+    double? rating,
+    int? calories,
+    bool? isFavourite,
+    String? category,
+  }) {
+    return FoodItem(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      imageUrl: imageUrl ?? this.imageUrl,
+      rating: rating ?? this.rating,
+      calories: calories ?? this.calories,
+      isFavourite: isFavourite ?? this.isFavourite,
+      category: category ?? this.category,
+    );
+  }
+
   @override
-  List<Object?> get props => [id, name, description, price, imageUrl, rating, calories];
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        price,
+        imageUrl,
+        rating,
+        calories,
+        isFavourite,
+        category
+  ];
 
   factory FoodItem.fromMap(Map<String, dynamic> map) {
     return FoodItem(
@@ -31,6 +69,7 @@ class FoodItem extends Equatable {
       imageUrl: map['imageUrl'],
       rating: map['rating'],
       calories: map['calories'],
+      category: map['category'],
     );
   }
 
@@ -43,6 +82,7 @@ class FoodItem extends Equatable {
       'imageUrl': 'assets/FootItems/noodles.png',
       'rating': 4.5,
       'calories': 350,
+      'category': 'Noodles',
     }),
     FoodItem.fromMap({
       'id': '2',
@@ -52,6 +92,7 @@ class FoodItem extends Equatable {
       'imageUrl': 'assets/FootItems/burger_picture1.png',
       'rating': 4.2,
       'calories': 700,
+      'category': 'Burger',
     }),
     FoodItem.fromMap({
       'id': '3',
@@ -61,6 +102,7 @@ class FoodItem extends Equatable {
       'imageUrl': 'assets/FootItems/fresh_fruits.png',
       'rating': 4.8,
       'calories': 250,
+      'category': 'Salad',
     }),
   ];
 }

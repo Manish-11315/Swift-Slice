@@ -48,7 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Colors.grey[200],
+                // fillColor: Colors.grey[200],
               ),
             ),
             const SizedBox(height: 16.0),

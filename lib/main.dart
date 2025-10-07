@@ -18,34 +18,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Swift Slice',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => HomeBloc(),
-          ),
-          BlocProvider(
-            create: (context) => CartBloc(),
-          ),
-          BlocProvider(
-            create: (context) => ProfileBloc(),
-          ),
-          BlocProvider(
-            create: (context) => TabBloc(),
-          ),
-          BlocProvider(
-            create: (context) => FavouriteBloc()..add(LoadFavourites()),
-          ),
-          BlocProvider(
-            create: (context) => NotificationBloc()..add(LoadNotifications()),
-          ),
-        ],
-        child: const MainScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => CartBloc(),
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(),
+        ),
+        BlocProvider(
+          create: (context) => TabBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FavouriteBloc()..add(LoadFavourites()),
+        ),
+        BlocProvider(
+          create: (context) => NotificationBloc()..add(LoadNotifications()),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Swift Slice',
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: ThemeMode.system,
+        home: const MainScreen(),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:basic_food_delivery_app/presentation/screens/description_screen.dart';
 import 'package:basic_food_delivery_app/logic/bloc/notification/notification_bloc.dart';
 import 'package:animations/animations.dart';
 import 'package:basic_food_delivery_app/presentation/screens/notification/notification_screen.dart';
@@ -9,6 +10,8 @@ import 'package:basic_food_delivery_app/logic/bloc/home/home_bloc.dart';
 import 'package:basic_food_delivery_app/presentation/screens/search_screen.dart';
 import 'package:basic_food_delivery_app/utils/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:basic_food_delivery_app/presentation/screens/category_screen.dart';
+import 'package:basic_food_delivery_app/presentation/screens/food_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -163,26 +166,47 @@ class HomeScreen extends StatelessWidget {
                       ),
                       itemCount: state.categories.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                "assets/" + state.categories[index]['image']!,
-                                height: 40,
-                                width: 40,
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                state.categories[index]['name']!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ],
+                        final category = state.categories[index];
+                        return InkWell(
+                          onTap: () {
+                            if (category['name'] == 'Burger') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const FoodItemScreen(categoryName: 'Burger'),
+                                ),
+                              );
+                            } else if (category['name'] == 'More') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CategoryScreen(),
+                                ),
+                              );
+                            }
+                          },
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "assets/" + category['image']!,
+                                  height: 40,
+                                  width: 40,
+                                ),
+                                const SizedBox(height: 5),
+                                Text(
+                                  category['name']!,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -202,112 +226,121 @@ class HomeScreen extends StatelessWidget {
                       children: state.popularNow.map((item) {
                         return LayoutBuilder(
                           builder: (context, constraints) {
-                            return Card(
-                              elevation: 8,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              shadowColor: AppColors.primaryColor,
-                              child: SizedBox(
-                                width: constraints.maxWidth > 200
-                                    ? (constraints.maxWidth / 2) - 15
-                                    : constraints.maxWidth,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            topRight: Radius.circular(8),
-                                          ),
-                                          child: Image.asset(
-                                            item.imageUrl,
-                                            height: 120,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Positioned(
-                                          top: 8,
-                                          right: 8,
-                                          child: BlocBuilder<FavouriteBloc, FavouriteState>(
-                                            builder: (context, state) {
-                                              bool isFavourite = false;
-                                              if (state is FavouriteLoaded) {
-                                                isFavourite = state.favouriteItems.contains(item);
-                                              }
-                                              return Container(
-                                                padding: const EdgeInsets.all(4),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black.withOpacity(0.5),
-                                                  borderRadius: BorderRadius.circular(20),
-                                                ),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    if (isFavourite) {
-                                                      context.read<FavouriteBloc>().add(RemoveFavourite(item));
-                                                    } else {
-                                                      context.read<FavouriteBloc>().add(AddFavourite(item));
-                                                    }
-                                                  },
-                                                  child: Icon(
-                                                    isFavourite ? Icons.favorite : Icons.favorite_border,
-                                                    color: isFavourite ? Colors.red : Colors.white,
-                                                    size: 20,
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context, rootNavigator: true).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DescriptionScreen(foodItem: item),
+                                  ),
+                                );
+                              },
+                              child: Card(
+                                elevation: 8,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                shadowColor: AppColors.primaryColor,
+                                child: SizedBox(
+                                  width: constraints.maxWidth > 200
+                                      ? (constraints.maxWidth / 2) - 15
+                                      : constraints.maxWidth,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Stack(
                                         children: [
-                                          Text(
-                                            item.name,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
+                                          ClipRRect(
+                                            borderRadius: const BorderRadius.only(
+                                              topLeft: Radius.circular(8),
+                                              topRight: Radius.circular(8),
                                             ),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
+                                            child: Image.asset(
+                                              item.imageUrl,
+                                              height: 120,
+                                              width: double.infinity,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
-                                          const SizedBox(height: 5),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '\$${item.price.toStringAsFixed(2)}',
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: AppColors.primaryColor,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  context.read<CartBloc>().add(AddToCart(item));
-                                                  context.read<TabBloc>().add(const ChangeTab(2));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.add_shopping_cart,
-                                                  color: AppColors.primaryColor,
-                                                ),
-                                              ),
-                                            ],
+                                          Positioned(
+                                            top: 8,
+                                            right: 8,
+                                            child: BlocBuilder<FavouriteBloc, FavouriteState>(
+                                              builder: (context, state) {
+                                                bool isFavourite = false;
+                                                if (state is FavouriteLoaded) {
+                                                  isFavourite = state.favouriteItems.contains(item);
+                                                }
+                                                return Container(
+                                                  padding: const EdgeInsets.all(4),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.black.withOpacity(0.5),
+                                                    borderRadius: BorderRadius.circular(20),
+                                                  ),
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      if (isFavourite) {
+                                                        context.read<FavouriteBloc>().add(RemoveFavourite(item));
+                                                      } else {
+                                                        context.read<FavouriteBloc>().add(AddFavourite(item));
+                                                      }
+                                                    },
+                                                    child: Icon(
+                                                      isFavourite ? Icons.favorite : Icons.favorite_border,
+                                                      color: isFavourite ? Colors.red : Colors.white,
+                                                      size: 20,
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.name,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text(
+                                                  '\$${item.price.toStringAsFixed(2)}',
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: AppColors.primaryColor,
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    context.read<CartBloc>().add(AddToCart(item));
+                                                    context.read<TabBloc>().add(const ChangeTab(2));
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.add_shopping_cart,
+                                                    color: AppColors.primaryColor,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
