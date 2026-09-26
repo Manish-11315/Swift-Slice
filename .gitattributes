@@ -1,0 +1,5 @@
+# Ignore all HTML files from language statistics
+*.html linguist-detectable=false
+
+# Alternatively, force GitHub to treat all web build files as generated/vendor code
+web/** linguist-vendored
